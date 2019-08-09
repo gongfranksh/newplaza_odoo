@@ -1,0 +1,87 @@
+<odoo>
+    <data>
+        <template id="assets_backend" name="qingjia assets" inherit_id="web.assets_backend">
+		    <xpath expr="." position="inside">
+			    <link rel="stylesheet" href="/bn_newplaza/static/src/css/bn_discount_report.css"/>
+		    </xpath>
+	    </template>
+        <!-- 列表视图 -->
+        <record id="bn_discount_report_view_tree" model="ir.ui.view">
+            <field name="name">bn.discoun.report.tree</field>
+            <field name="model">bn.discount.report</field>
+            <field name="arch" type="xml">
+                <tree class="treeview">
+                    <field name="dtDate"/>
+                    <field name="shop_id" class="test"/>
+                    <field name="contract_code"/>
+                    <field name="plan_id"/>
+                    <field name="second_party"/>
+                    <field name="contract_begin_date"/>
+                    <field name="contract_end_date"/>
+                    <field name="contract_execute_state"/>
+                    <field name="contract_change_date"/>
+                    <field name="abdication_type"/>
+                    <field name="contract_all_money"/>
+                    <field name="receivables_type"/>
+                    <field name="contract_day"/>
+                    <field name="contract_day_money"/>
+                    <field name="area"/>
+                    <field name="contract_shop_price"/>
+                    <field name="shop_price_discount"/>
+                    <field name="contract_price"/>
+                    <field name="contract_month"/>
+                    <field name="all_price"/>
+                    <field name="discount_price"/>
+                    <field name="resources_subsidy"/>
+                    <field name="day_discount"/>
+                    <field name="january"/>
+                    <field name="february"/>
+                    <field name="march"/>
+                    <field name="april"/>
+                    <field name="may"/>
+                    <field name="june"/>
+                    <field name="july"/>
+                    <field name="august"/>
+                    <field name="september"/>
+                    <field name="october"/>
+                    <field name="november"/>
+                    <field name="december"/>
+                    <field name="all_month"/>
+                </tree>
+            </field>
+        </record>
+        <!--搜索视图-->
+        <record id="bn_discount_report_view_search" model="ir.ui.view">
+            <field name="name">bn.discount.report.view.search</field>
+            <field name="model">bn.discount.report</field>
+            <field name="arch" type="xml">
+                <search string="XXXX">
+                    <group string="分组">
+                        <filter string="日期" name="date"  context="{'group_by':'dtDate:month'}"/>
+                        <filter string="门店" name="shop"  context="{'group_by':'shop_id'}"/>
+                        <filter string="合同当日金额分类小计" name="text" context="{'group_by':'text'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_discount_report">
+            <field name="name">折扣报表</field>
+            <field name="res_model">bn.discount.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_discount_report_view_tree"/>
+            <field name="search_view_id" ref="bn_discount_report_view_search"/>
+            <field name="context" eval="{'search_default_date':1,'search_default_shop':1,'search_default_text':1}"/>
+        </record>
+
+
+        <menuitem name="2--->折扣报表"
+                  id="bn_discount_report_menu"
+                  sequence="20"
+                  parent="bn_newplaza_rpt_menu"
+                  action="action_bn_discount_report"/>
+
+    </data>
+
+</odoo>

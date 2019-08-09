@@ -1,0 +1,203 @@
+<odoo>
+    <data>
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_pmplan_view_trees" model="ir.ui.view">
+            <field name="name">bn.pmplan.tree</field>
+            <field name="model">bn.pmplan</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="shopid"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_pmplan">
+            <field name="name">席位清单</field>
+            <field name="res_model">bn.pmplan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_pmplan_view_trees"/>
+        </record>
+
+        <!--- floor -->
+
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_floor_view_trees" model="ir.ui.view">
+            <field name="name">bn.floor.tree</field>
+            <field name="model">bn.floor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_floor">
+            <field name="name">楼层</field>
+            <field name="res_model">bn.floor</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_floor_view_trees"/>
+        </record>
+
+
+        <!--- bn_resourcetype -->
+
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_resourcetype_view_trees" model="ir.ui.view">
+            <field name="name">bn.resourcetype.tree</field>
+            <field name="model">bn.resourcetype</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="itemcode"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_resourcetype">
+            <field name="name">资源类型</field>
+            <field name="res_model">bn.resourcetype</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_resourcetype_view_trees"/>
+        </record>
+
+
+        <!--- bn_salearea -->
+
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_salearea_view_trees" model="ir.ui.view">
+            <field name="name">bn.salearea.tree</field>
+            <field name="model">bn.salearea</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_salearea">
+            <field name="name">业种</field>
+            <field name="res_model">bn.salearea</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_salearea_view_trees"/>
+        </record>
+
+
+        <!--- bn_plantype -->
+
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_plantype_view_trees" model="ir.ui.view">
+            <field name="name">bn.plantype.tree</field>
+            <field name="model">bn.plantype</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_plantype">
+            <field name="name">席位类型</field>
+            <field name="res_model">bn.plantype</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_plantype_view_trees"/>
+        </record>
+
+
+        <!--- bn_shopplanhymonth -->
+
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_shopplanhymonth_view_trees" model="ir.ui.view">
+            <field name="name">bn.shopplanhymonth.tree</field>
+            <field name="model">bn.shopplanhymonth</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="shopid"/>
+                    <field name="plantypeid"/>
+                    <field name="hy_month"/>
+                    <field name="hy_year"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_shopplanhymonth">
+            <field name="name">换约时间</field>
+            <field name="res_model">bn.shopplanhymonth</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bn_newplaza_shopplanhymonth_view_trees"/>
+        </record>
+
+       <menuitem name="商管->门店"
+                  id="bn_newplaza_setting_store_menu"
+                  sequence="1"
+                  parent="bn_newplaza_base_menu"
+                  action="base.action_res_company_form"/>
+
+        <menuitem name="商管->席位"
+                  id="bn_newplaza_setting_plan_menu"
+                  sequence="10"
+                  parent="bn_newplaza_base_menu"
+                  action="action_bn_newplaza_pmplan"/>
+
+        <menuitem name="商管->席位类型"
+                  id="bn_newplaza_setting_plantype_menu"
+                  sequence="20"
+                  parent="bn_newplaza_base_menu"
+                  action="action_bn_newplaza_plantype"/>
+
+
+        <menuitem name="商管->楼层"
+                  id="bn_newplaza_setting_floor_menu"
+                  parent="bn_newplaza_base_menu"
+                  sequence="60"
+                  action="action_bn_newplaza_floor"/>
+
+        <menuitem name="商管->资源类型"
+                  id="bn_newplaza_setting_resourcetype_menu"
+                  sequence="40"
+                  parent="bn_newplaza_base_menu"
+                  action="action_bn_newplaza_resourcetype"/>
+
+        <menuitem name="商管->业种"
+                  id="bn_newplaza_setting_salearea_menu"
+                  parent="bn_newplaza_base_menu"
+                  sequence="50"
+                  action="action_bn_newplaza_salearea"/>
+
+
+        <menuitem name="商管->换约时间"
+                  id="bn_newplaza_setting_shopplanhymonth_menu"
+                  sequence="3"
+                  parent="bn_newplaza_base_menu"
+                  action="action_bn_newplaza_shopplanhymonth"/>
+    </data>
+
+</odoo>

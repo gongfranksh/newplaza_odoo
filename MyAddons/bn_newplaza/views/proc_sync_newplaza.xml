@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sync_newplaza_wizard" model="ir.ui.view">
+            <field name="name">同步商管数据资料</field>
+            <field name="model">bn.newplaza.proc.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Scheduler Parameters">
+                    <sheet>
+                        <group col='2'>
+                            <!--<p>                               -->
+                            <!--</p>-->
+                            <field name="dtDate"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="sync_floor_button" string="楼层" type="object" class="btn-primary"/>
+                        <button name="sync_resourcetype_button" string="资源类型" type="object" class="btn-primary"/>
+                        <button name="sync_pm_salearea_button" string="业种" type="object" class="btn-primary"/>
+                        <button name="sync_pm_plan_button" string="席位" type="object" class="btn-primary"/>
+                        <button name="sync_pm_plan_button" string="席位类型" type="object" class="btn-primary"/>
+                        <button name="sync_pm_shop_button" string="门店" type="object" class="btn-primary"/>
+                        <button name="sync_floor_plan" string="席位楼层数据导入" type="object" class="btn-primary"/>
+                        <button name="sync_bn_discount_report" string="折扣报表信息导入" type="object" class="btn-primary"/>
+                        <button name="sync_contract_file" string="合同未归档" type="object" class="btn-primary"/>
+                        <button name="sync_all_button" string="全部" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_proc_sync_newplaza" model="ir.actions.act_window">
+            <field name="name"> 商管数据->同步处理</field>
+            <field name="res_model">bn.newplaza.proc.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="数据同步"
+                  id="bn_newplaza_sync_base_menu"
+                  sequence="15"
+                  parent="bn_newplaza_sync_data_menu"
+                  action="action_proc_sync_newplaza"/>
+
+
+    </data>
+    <!-- actions -->
+
+</odoo>

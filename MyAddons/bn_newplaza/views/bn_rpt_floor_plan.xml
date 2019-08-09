@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_rptfloorplan_view_trees" model="ir.ui.view">
+            <field name="name">bn.rptfloorplan.tree</field>
+            <field name="model">bn.rptfloorplan</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="dtDate"/>
+                    <field name="shop_id"/>
+                    <field name="floor_id"/>
+                    <field name="plan_id"/>
+                    <field name="plan_shopprice"/>
+                    <field name="rent_shopprice"/>
+                    <field name="real_factprice"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="bn_newplaza_rptfloorplan_pivot" model="ir.ui.view">
+            <field name="name">bn.rptfloorplan.pivot</field>
+            <field name="model">bn.rptfloorplan</field>
+            <field name="arch" type="xml">
+                <pivot string="Pipeline Analysis" disable_linking="True">
+                    <field name="dtDate" interval="month" type="col"/>
+                    <field name="shop_id" type="row"/>
+                    <field name="resource_type_id" type="row"/>
+                    <field name="floor_id" type="row"/>
+                    <field name="decQuantity" type="measure"/>
+                    <field name="plan_shopprice" type="measure"/>
+                    <field name="rent_shopprice" type="measure"/>
+                    <field name="real_factprice" type="measure"/>
+                    <field name="ar_balance" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_rptfloorplan">
+            <field name="name">楼层席位</field>
+            <field name="res_model">bn.rptfloorplan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="bn_newplaza_rptfloorplan_view_trees"/>
+        </record>
+
+
+        <menuitem name="1--->楼层席位分析报表"
+                  id="bn_newplaza_rpt_floor_plan_menu"
+                  sequence="10"
+                  parent="bn_newplaza_rpt_menu"
+                  action="action_bn_newplaza_rptfloorplan"/>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+model_bn_discount_report_x,bn_newplaza.bn_discount_report,model_bn_discount_report,bn_newplaza_setting_group,1,1,1,1
+model_bn_floor_x,bn_newplaza.bn_floor,model_bn_floor,bn_newplaza_setting_group,1,1,1,1
+model_bn_resourcetype_x,bn_newplaza.bn_resourcetype,model_bn_resourcetype,bn_newplaza_setting_group,1,1,1,1
+model_bn_SaleArea_x,bn_newplaza.bn_salearea,model_bn_salearea,bn_newplaza_setting_group,1,1,1,1
+model_bn_pmplan_x,bn_newplaza.bn_pmplan,model_bn_pmplan,bn_newplaza_setting_group,1,1,1,1
+model_bn_rptfloorplan_x,bn_newplaza.bn_rptfloorplan,model_bn_rptfloorplan,bn_newplaza_setting_group,1,1,1,1
+model_bn_plantype_x,bn_newplaza.bn_plantype,model_bn_plantype,bn_newplaza_setting_group,1,1,1,1
+model_bn_shopplanhymonth_x,bn_newplaza.bn_shopplanhymonth,model_bn_shopplanhymonth,bn_newplaza_setting_group,1,1,1,1
+model_bn_rptcontractfile_x,bn_newplaza.bn_rptcontractfile,model_bn_rptcontractfile,bn_newplaza_setting_group,1,1,1,1

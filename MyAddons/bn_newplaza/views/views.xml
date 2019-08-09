@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+      <!-- Top menu item -->
+        <menuitem name="商管分析系统"
+                  id="bn_newplaza_menu_root" groups="bn_newplaza.bn_newplaza_setting_group"/>
+
+        <menuitem name="基本资料"
+                  sequence="10"
+                  id="bn_newplaza_base_menu"
+                  parent="bn_newplaza_menu_root" groups="bn_newplaza.bn_newplaza_setting_group"/>
+
+        <menuitem name="同步任务"
+                  sequence="30"
+                  id="bn_newplaza_sync_data_menu"
+                  parent="bn_newplaza_menu_root" groups="bn_newplaza.bn_newplaza_setting_group"/>
+
+        <menuitem name="报表数据"
+                  sequence="20"
+                  id="bn_newplaza_rpt_menu"
+                  parent="bn_newplaza_menu_root" groups="bn_newplaza.bn_newplaza_setting_group"/>
+
+  </data>
+</odoo>

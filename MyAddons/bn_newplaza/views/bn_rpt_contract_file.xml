@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+        <!-- 列表视图 -->
+        <record id="bn_newplaza_rptcontractfile_view_trees" model="ir.ui.view">
+            <field name="name">bn.rptcontractfile.tree</field>
+            <field name="model">bn.rptcontractfile</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="dtDate"/>
+                    <field name="shop_id"/>
+                    <field name="plantype_id"/>
+                    <field name="contract_vol" />
+                    <field name="filed" />
+                    <field name="unfiled" />
+                    <!--<field name="unfiled_rate"/>-->
+                    <field name="unfiled_rate_title"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="bn_newplaza_rptcontractfile_pivot" model="ir.ui.view">
+            <field name="name">bn.rptcontractfile.pivot</field>
+            <field name="model">bn.rptcontractfile</field>
+            <field name="arch" type="xml">
+                <!--<pivot string="Pipeline Analysis" disable_linking="True">-->
+                <pivot string="Pipeline Analysis" >
+                    <field name="dtDate" interval="month" type="col"/>
+                    <field name="shop_id" type="row"/>
+                    <field name="plantype_id" type="row"/>
+                    <field name="contract_vol" type="measure"/>
+                    <field name="filed" type="measure"/>
+                    <field name="unfiled" type="measure"/>
+                    <field name="tdays" type="measure"/>
+                    <field name="t2sdays" type="measure"/>
+                    <field name="stondays" type="measure"/>
+                    <field name="nabove" type="measure"/>
+                    <field name="unfiled_rate" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- 表单视图 -->
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_bn_newplaza_rptcontractfile">
+            <field name="name">合约未归档报表</field>
+            <field name="res_model">bn.rptcontractfile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="bn_newplaza_rptcontractfile_view_trees"/>
+        </record>
+
+
+        <menuitem name="6--->合约未归档报表"
+                  id="bn_newplaza_rpt_contract_file_menu"
+                      sequence="60"
+                  parent="bn_newplaza_rpt_menu"
+                  action="action_bn_newplaza_rptcontractfile"/>
+
+    </data>
+
+</odoo>
