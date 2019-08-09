@@ -149,7 +149,7 @@ class bn_shopplanhymonth(models.Model):
     hy_month  = fields.Char(string=u'换约月份')
     hy_year  = fields.Char(string=u'换约年份')
     shopid = fields.Many2one( 'res.company', u'门店', required=True)
-    plantypeid = fields.Many2one( 'bn.plantype', u'楼层', required=True)
+    plantypeid = fields.Many2one( 'bn.plantype', u'席位类型', required=True)
 
     @api.multi
     def query(self, res):
