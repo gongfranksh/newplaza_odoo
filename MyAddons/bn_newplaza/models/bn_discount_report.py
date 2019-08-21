@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+import datetime
 class bn_discount_report(models.Model):
     _name = 'bn.discount.report'
 
@@ -45,7 +46,8 @@ class bn_discount_report(models.Model):
     text=fields.Char(string=u'文本',compute='_compute_text',store=True)
 
     shop_id = fields.Many2one('res.company', u'门店')
-    dtDate = fields.Date(string=u'日期')
+    lngshopid = fields.Integer(string='商管门店id')
+    strCreateYearMonth = fields.Char(string=u'月份')
 
 
     @api.depends('january','february','march','april','may','june','july','august','september','october','november','december')
@@ -69,8 +71,8 @@ class bn_discount_report(models.Model):
         rst=list(set(rst_tmp))
         return rst
     @api.multi
-    def query_same(self,date,contract_strid,plan_strid):
-        rst=self.env['bn.discount.report'].search([('dtDate', '=', date),
+    def query_same(self,strCreateYearMonth,contract_strid,plan_strid):
+        rst=self.env['bn.discount.report'].search([('strCreateYearMonth', '=', strCreateYearMonth),
                                                    ('contract_strid','=',contract_strid),
                                                    ('plan_strid','=',plan_strid)
                                                    ])
@@ -78,3 +80,24 @@ class bn_discount_report(models.Model):
             return None
         else:
             return rst
+    @api.multi
+    def delete_history(self,procdate):
+        sql="""delete  from bn_discount_report where "strCreateYearMonth"='{0}'""".format(procdate)
+        self.env.cr.execute(sql)
+        #self.env.cr.commit()
+    @api.multi
+    def update_relateshop(self,procdate):
+        sql="""update bn_discount_report  A 
+               set "shop_id"=B."id"
+               FROM res_company B
+               where  A."strCreateYearMonth"='{0}' 
+               and A."lngshopid"=B."lngshopid" """.format(procdate)
+        self.env.cr.execute(sql)
+    @api.multi
+    def update_relateplan(self,procdate):
+        sql="""update bn_discount_report  A 
+               set "plan_id"=C."id"
+               FROM bn_pmplan C
+               where  A."strCreateYearMonth"='{0}' 
+               and A."plan_strid"=C."code" """.format(procdate)
+        self.env.cr.execute(sql)

@@ -94,12 +94,9 @@ class bn_RptFloorPlan(models.Model):
     @api.multi
     def get_need_sync_pm_plan(self):
         rstlist = self.env['bn.rptfloorplan'].search([('plan_id', '=',None)])
-        if len(rstlist) == 0:
-            return None
-        else:
-            rst_tmp=[]
-            for rec in rstlist:
-                rst_tmp.append(rec.plan_strid)
-            rst=list(set(rst_tmp))
-            return rst
+        rst_tmp = []
+        for rec in rstlist:
+            rst_tmp.append(rec.plan_strid)
+        rst = list(set(rst_tmp))
+        return rst
 

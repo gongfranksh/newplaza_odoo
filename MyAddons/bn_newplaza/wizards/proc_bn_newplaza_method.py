@@ -7,6 +7,7 @@ from ..models.Entity.SaleArea import SaleArea
 from ..models.Entity.Shops import Shops
 from ..models.bn_decorator import bnfunlog
 from ..models.Entity.DiscountReport import DiscountReport
+import datetime
 
 
 @bnfunlog('')
@@ -14,13 +15,18 @@ def proc_sync_floor(self):
     np = Floor()
     floors = np.get_floor_all()
     for fl in floors:
-        res = {'code': fl['strenumid'],
-               'name': fl['stritemname'],
+        res = {'name': fl['strItemName'],
                'lngitemvalue':fl['lngItemValue']
-                    }
+              }
         rst= self.env['bn.floor'].query(res)
+        #如果找不到相同的楼层则新增一条记录
         if rst is None:
             self.env['bn.floor'].create(res)
+        #如果找到相同的楼层且名字发生变化，则修改名称
+        else:
+            rstone=rst[0]
+            if rstone.name!=res['name']:
+                rstone.write(res)
     return True
 
 
@@ -73,7 +79,7 @@ def proc_sync_pmplan(self):
     rst1=self.env['bn.rptfloorplan'].get_need_sync_pm_plan()
     rst2=self.env['bn.discount.report'].get_need_sync_pm_plan()
     rst=list(set(rst1+rst2))
-    if rst is not None:
+    if len(rst)!=0:
         task_plan=Plan()
         plans=task_plan.get_all(rst)
         i = 0
@@ -89,7 +95,6 @@ def proc_sync_pmplan(self):
                'lngPlanTypeId' :plan['lngresourcetype'],
                'blnIsCancel' :plan['blniscancel'],
                'strDescription' :plan['strresourcename'],
-               'lngfloor' :plan['lngfloor'],
                'dtActiveDate' :plan['dtactivedate'],
                'dtCancleDate' :plan['dtCancelDate'],
                'shopid' :shopid,
@@ -205,63 +210,58 @@ def proc_contract_file(self):
 @bnfunlog('')
 def proc_sync_discount_report(self):
     report=DiscountReport()
-    resultlist=report.get_all(self.dtDate)
+    year_month = datetime.datetime.strptime(str(self.dtDate),'%Y-%m-%d').strftime('%Y-%m')
+    #删除该月下的所有记录,重新同步
+    self.env['bn.discount.report'].delete_history(year_month)
+    #获取商管系统中该月份下所有数据，返回的格式为[{},{},{}]
+    resultlist=report.get_all(year_month)
     i=0
     for result in resultlist:
         print('discount_report==>current:' + str(i) + '-/-total:' + str(len(resultlist)))
-        sameresult=self.env['bn.discount.report'].query_same(result['strCreateDate'],
-                                                             result['strContractID'],
-                                                             result['strPlanID'])
-        if sameresult is None:
-            shopid = self.env['res.company'].query(result['lngShopID']).id
-            plan_tmp=self.env['bn.pmplan'].query_by_id(result['strPlanID'])
-            if plan_tmp is None :
-                plan_id=None
-            else:
-                plan_id=plan_tmp.id
-            if result['dtChangeDate'] is None or result['dtChangeDate']=="":
-                dtChangeDate=None
-            else:
-                dtChangeDate=result['dtChangeDate']
-            res={
-                'contract_strid':result['strContractID'],
-                'contract_code':result['strContractCode'],
-                'contract_begin_date':result['dtBeginDate'],
-                'contract_end_date':result['dtEndDate'],
-                'contract_change_date':dtChangeDate,
-                'contract_execute_state':result['strStatus'],
-                'contract_all_money':result['lngTotalMoney'],
-                'contract_day_money':result['decDayTotalMoney'],
-                'contract_day':result['lngDays'],
-                'contract_price':result['decFactPrice'],
-                'contract_shop_price':result['decSimpleShopPrice'],
-                'contract_month':result['decQuantity'],
-                'plan_strid':result['strPlanID'],
-                'plan_id':plan_id,
-                'second_party':result['strBusinessName'],
-                'abdication_type':result['strWithdrawType'],
-                'receivables_type':result['strGatheringName'],
-                'area':result['decArea'],
-                'shop_price_discount':result['decScale2'],
-                'all_price':result['decTotalSimpleShopPrice'],
-                'discount_price':result['decTotalDisCount'],
-                'resources_subsidy':result['lngChangeMoney'],
-                'day_discount':result['decDayContractSimpleDiff'],
-                'january':result['decMonthDisCount1'],
-                'february':result['decMonthDisCount2'],
-                'march': result['decMonthDisCount3'],
-                'april': result['decMonthDisCount4'],
-                'may': result['decMonthDisCount5'],
-                'june': result['decMonthDisCount6'],
-                'july': result['decMonthDisCount7'],
-                'august': result['decMonthDisCount8'],
-                'september': result['decMonthDisCount9'],
-                'october': result['decMonthDisCount10'],
-                'november': result['decMonthDisCount11'],
-                'december': result['decMonthDisCount12'],
-                'dtDate': result['strCreateDate'],
-                'shop_id': shopid
+        if result['dtChangeDate'] is None or result['dtChangeDate']=="":
+            dtChangeDate=None
+        else:
+            dtChangeDate=result['dtChangeDate']
+        res={
+            'contract_strid':result['strContractID'],
+            'contract_code':result['strContractCode'],
+            'contract_begin_date':result['dtBeginDate'],
+            'contract_end_date':result['dtEndDate'],
+            'contract_change_date':dtChangeDate,
+            'contract_execute_state':result['strStatus'],
+            'contract_all_money':result['lngTotalMoney'],
+            'contract_day_money':result['decDayTotalMoney'],
+            'contract_day':result['lngDays'],
+            'contract_price':result['decFactPrice'],
+            'contract_shop_price':result['decSimpleShopPrice'],
+            'contract_month':result['decQuantity'],
+            'plan_strid':result['strPlanID'],
+            'second_party':result['strBusinessName'],
+            'abdication_type':result['strWithdrawType'],
+            'receivables_type':result['strGatheringName'],
+            'area':result['decArea'],
+            'shop_price_discount':result['decScale2'],
+            'all_price':result['decTotalSimpleShopPrice'],
+            'discount_price':result['decTotalDisCount'],
+            'resources_subsidy':result['lngChangeMoney'],
+            'day_discount':result['decDayContractSimpleDiff'],
+            'january':result['decMonthDisCount1'],
+            'february':result['decMonthDisCount2'],
+            'march': result['decMonthDisCount3'],
+            'april': result['decMonthDisCount4'],
+            'may': result['decMonthDisCount5'],
+            'june': result['decMonthDisCount6'],
+            'july': result['decMonthDisCount7'],
+            'august': result['decMonthDisCount8'],
+            'september': result['decMonthDisCount9'],
+            'october': result['decMonthDisCount10'],
+            'november': result['decMonthDisCount11'],
+            'december': result['decMonthDisCount12'],
+            'strCreateYearMonth': result['strCreateYearMonth'],
+            'lngshopid': result['lngShopID']
             }
-            self.env['bn.discount.report'].create(res)
+        self.env['bn.discount.report'].create(res)
         i += 1
+    self.env['bn.discount.report'].update_relateshop(year_month)
+    self.env['bn.discount.report'].update_relateplan(year_month)
     return True

@@ -10,11 +10,7 @@ class Floor(bnmssql):
         bnmssql.__init__(self)
 
     def get_floor_all(self):
-        sql ="""
-          select strenumid,stritemname,lngItemValue,stritemcode 
-          from Pm_Enum where lngenumtypeid=7
-        
-        """
+        sql ="""select lngItemValue,strItemName from Pm_Enum where lngEnumTypeID=7"""
         rst = self.get_remote_result_by_sql(sql)
         return rst
 

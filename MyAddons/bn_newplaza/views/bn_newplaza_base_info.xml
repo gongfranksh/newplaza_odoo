@@ -32,8 +32,8 @@
             <field name="model">bn.floor</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="code"/>
                     <field name="name"/>
+                    <field name="lngitemvalue"/>
                 </tree>
             </field>
         </record>

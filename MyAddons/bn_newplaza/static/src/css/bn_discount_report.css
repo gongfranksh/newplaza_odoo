@@ -1,9 +1,6 @@
 .test{
     color:blue;
 }
-.treeview{
-    width:3500px;
-}
 
 .treeview table thead tr th:nth-child(22){
     background-color:pink;
@@ -70,4 +67,14 @@
 }
 .treeview table thead tr th:nth-child(37){
     background-color:#D8E4BC;
+}
+.treeview table thead tr th {
+    white-space:nowrap;
+}
+.treeview table tbody tr td{
+    white-space:nowrap;
+}
+.treeview{
+    width:100%;
+    height:100%;
 }

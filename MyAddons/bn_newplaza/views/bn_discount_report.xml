@@ -1,17 +1,18 @@
 <odoo>
     <data>
-        <template id="assets_backend" name="qingjia assets" inherit_id="web.assets_backend">
-		    <xpath expr="." position="inside">
-			    <link rel="stylesheet" href="/bn_newplaza/static/src/css/bn_discount_report.css"/>
-		    </xpath>
-	    </template>
+    <template id="assets_backend" name="qingjia assets" inherit_id="web.assets_backend">
+	    <xpath expr="." position="inside">
+		    <link rel="stylesheet" href="/bn_newplaza/static/src/css/bn_discount_report.css"/>
+            <script type="text/javascript" src="/bn_newplaza/static/src/js/bn_discount_report.js"></script>
+        </xpath>
+    </template>
         <!-- 列表视图 -->
         <record id="bn_discount_report_view_tree" model="ir.ui.view">
             <field name="name">bn.discoun.report.tree</field>
             <field name="model">bn.discount.report</field>
             <field name="arch" type="xml">
                 <tree class="treeview">
-                    <field name="dtDate"/>
+                    <field name="strCreateYearMonth"/>
                     <field name="shop_id" class="test"/>
                     <field name="contract_code"/>
                     <field name="plan_id"/>
@@ -57,11 +58,35 @@
             <field name="arch" type="xml">
                 <search string="XXXX">
                     <group string="分组">
-                        <filter string="日期" name="date"  context="{'group_by':'dtDate:month'}"/>
+                        <filter string="月份" name="date"  context="{'group_by':'strCreateYearMonth'}"/>
                         <filter string="门店" name="shop"  context="{'group_by':'shop_id'}"/>
                         <filter string="合同当日金额分类小计" name="text" context="{'group_by':'text'}"/>
                     </group>
                 </search>
+            </field>
+        </record>
+        <!--pivot视图-->
+        <record id="bn_discount_report_view_pivot" model="ir.ui.view">
+            <field name="name">bn.discount.report.view.pivot</field>
+            <field name="model">bn.discount.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Pipeline Analysis" >
+                    <field name="strCreateYearMonth" interval="month" type="row"/>
+                    <field name="shop_id" type="row"/>
+                    <field name="january" type="measure"/>
+                    <field name="february" type="measure"/>
+                    <field name="march" type="measure"/>
+                    <field name="april" type="measure"/>
+                    <field name="may" type="measure"/>
+                    <field name="june" type="measure"/>
+                    <field name="july" type="measure"/>
+                    <field name="august" type="measure"/>
+                    <field name="september" type="measure"/>
+                    <field name="october" type="measure"/>
+                    <field name="november" type="measure"/>
+                    <field name="december" type="measure"/>
+                    <field name="all_month" type="measure"/>
+                </pivot>
             </field>
         </record>
         <!-- Action -->
@@ -69,7 +94,7 @@
             <field name="name">折扣报表</field>
             <field name="res_model">bn.discount.report</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot</field>
             <field name="view_id" ref="bn_discount_report_view_tree"/>
             <field name="search_view_id" ref="bn_discount_report_view_search"/>
             <field name="context" eval="{'search_default_date':1,'search_default_shop':1,'search_default_text':1}"/>

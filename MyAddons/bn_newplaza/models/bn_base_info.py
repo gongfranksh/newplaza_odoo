@@ -4,17 +4,16 @@ from odoo import models, fields, api
 
 class bn_floor(models.Model):
     _name = 'bn.floor'
-    code = fields.Char(string=u'编号', required=True)
     name = fields.Char(string=u'名称', required=True)
-    lngitemvalue = fields.Integer(string=u'内部值', required=True)
+    lngitemvalue = fields.Integer(string=u'值', required=True)
 
     @api.multi
     def query(self,res):
-        rst=self.env['bn.floor'].search([('code', '=', res['code'])])
-        if len(rst)==0 :
+        rst=self.env['bn.floor'].search([('lngitemvalue', '=', res['lngitemvalue'])])
+        if len(rst)==0:
             return None
         else:
-            return  rst
+            return rst
 
     @api.multi
     def query_by_id(self,res):
@@ -31,7 +30,7 @@ class bn_floor(models.Model):
         if len(rst)==0 :
             return None
         else:
-            return  rst
+            return rst[0]
 
 class bn_resourcetype(models.Model):
     _name = 'bn.resourcetype'
@@ -109,7 +108,6 @@ class bn_pmplan(models.Model):
     lngPlanTypeId=fields.Integer(string=u'席位类型')
     blnIsCancel  = fields.Selection([(1, '作废'), (0, '有效')], string='作废标志', default='0')
     strDescription  = fields.Char(string=u'描述')
-    lngfloor  = fields.Integer(string=u'楼层')
     dtActiveDate  = fields.Datetime(string=u'激活日期')
     dtCancleDate  = fields.Datetime(string=u'取消日期')
     shopid = fields.Many2one( 'res.company', u'门店', required=True)
@@ -149,7 +147,7 @@ class bn_shopplanhymonth(models.Model):
     hy_month  = fields.Char(string=u'换约月份')
     hy_year  = fields.Char(string=u'换约年份')
     shopid = fields.Many2one( 'res.company', u'门店', required=True)
-    plantypeid = fields.Many2one( 'bn.plantype', u'席位类型', required=True)
+    plantypeid = fields.Many2one( 'bn.plantype', u'楼层', required=True)
 
     @api.multi
     def query(self, res):
