@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from ..models.Entity.Floor  import Floor
 from ..models.Entity.Plan import Plan
 from ..models.Entity.ResourceType import ResourceType
@@ -9,6 +11,7 @@ from ..models.bn_decorator import bnfunlog
 from ..models.Entity.DiscountReport import DiscountReport
 import datetime
 
+_logger = logging.getLogger(__name__)
 
 @bnfunlog('')
 def proc_sync_floor(self):
@@ -217,6 +220,7 @@ def proc_sync_discount_report(self):
     resultlist=report.get_all(year_month)
     i=0
     for result in resultlist:
+        _logger.info('year_month==>'+year_month+' discount_report==>current:' + str(i) + '/' + str(len(resultlist)))
         print('discount_report==>current:' + str(i) + '-/-total:' + str(len(resultlist)))
         if result['dtChangeDate'] is None or result['dtChangeDate']=="":
             dtChangeDate=None

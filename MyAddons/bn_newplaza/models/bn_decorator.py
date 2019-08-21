@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import logging
+_logger = logging.getLogger(__name__)
+
 def bnfunlog(*args, **kwargs):
     def _bnfunlog(func):
         def __bnfunlog(*args, **kwargs):
             func(*args, **kwargs)
             print("Process %s  is called" % (func.__name__))
+            _logger.info("Process %s  is called" % (func.__name__))
+
         return __bnfunlog
     return _bnfunlog
 
